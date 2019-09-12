@@ -1,0 +1,62 @@
+# HTID:7934477: DO NOT REMOVE OR MODIFY THIS LINE AND THE LINES BELOW
+php_value display_errors 1
+# DO NOT REMOVE OR MODIFY THIS LINE AND THE LINES ABOVE HTID:7934477:
+
+RewriteEngine On
+Options +FollowSymLinks
+
+<IfModule mod_headers.c>
+<FilesMatch "\.(svg|ttf|otf|eot|woff|woff2|ico|font.css|fonts.css|css|js)$">
+    Header set Access-Control-Allow-Origin "*"
+</FilesMatch>
+</IfModule>
+
+<ifModule mod_deflate.c>
+  <filesMatch ".(css|js|html|php)$">
+    SetOutputFilter DEFLATE
+  </filesMatch>
+  
+  <FilesMatch ".(flv|gif|jpg|jpeg|png|ico|swf|js|pdf)$">
+  Header set Cache-Control "max-age=2592000"
+</FilesMatch>
+
+</ifModule>
+
+
+
+# static
+RewriteRule ^$ 											  	index.php
+RewriteRule ^admin/?$	 									admin.php
+RewriteRule ^index/?$	 									index.php
+RewriteRule ^login/?$	 									config/proses.php?page=login
+RewriteRule ^data/?$	 									Masyarakat/index.php?page=data
+RewriteRule ^users/?$	 									master.php?page=users
+RewriteRule ^logout/?$	 									master.php?page=logout
+
+ErrorDocument 404    										/satpolpp/404.php
+RewriteRule ^404/?$ 										404.php
+
+AddType image/svg+xml svg svgz
+AddType application/octet-stream .pdf
+
+
+# proc/self/environ? no way!
+RewriteCond %{QUERY_STRING} proc/self/environ [OR]
+ 
+# Block out any script trying to set a mosConfig value through the URL
+RewriteCond %{QUERY_STRING} mosConfig_[a-zA-Z_]{1,21}(=|\%3D) [OR]
+ 
+# Block out any script trying to base64_encode crap to send via URL
+RewriteCond %{QUERY_STRING} base64_encode.*(.*) [OR]
+ 
+# Block out any script that includes a <script> tag in URL
+RewriteCond %{QUERY_STRING} (<|%3C).*script.*(>|%3E) [NC,OR]
+ 
+# Block out any script trying to set a PHP GLOBALS variable via URL
+RewriteCond %{QUERY_STRING} GLOBALS(=|[|\%[0-9A-Z]{0,2}) [OR]
+ 
+# Block out any script trying to modify a _REQUEST variable via URL
+RewriteCond %{QUERY_STRING} _REQUEST(=|[|\%[0-9A-Z]{0,2})
+ 
+# Send all blocked request to homepage with 403 Forbidden error!
+RewriteRule ^(.*)$ index.php [F,L]
