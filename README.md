@@ -27,7 +27,7 @@ Ini merupakan webite yang membantu Satpol PP Kudus dalam mempublikasi letak koor
 4. Pimpinan 
    * Melihat Laporan Aduan dan Hasil penindakan
    
-## Link : [Gis-SatpolPPKudus.com](https://https://gis-satpolppkudus.000webhostapp.com/)
+## Link : [Gis-SatpolPPKudus.com](https://gis-satpolppkudus.000webhostapp.com/)
 
 Jangan lupa follow untuk kontak, bertanya dan bersilaturahmi 
 * [Instagram](https://www.instagram.com/yusufmokong/)
